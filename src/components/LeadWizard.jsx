@@ -117,6 +117,9 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
 
       setDone(true)
       document.body.classList.add('done')
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'Lead')
+      }
       if (onOpenCalendly) onOpenCalendly({ name: name.trim(), email: email.trim().toLowerCase(), phone: phone.trim() })
     } catch {
       setSubmitting(false)
