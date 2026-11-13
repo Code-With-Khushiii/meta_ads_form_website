@@ -49,8 +49,9 @@
   color: var(--orange);
   text-decoration: none;
   font-weight: 500;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
+.card a[href^='mailto:'] { font-size: 0.9rem; }
 .card a:hover { text-decoration: underline; }
 .icon {
   font-size: 2.4rem;

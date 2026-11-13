@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { X, MapPin } from 'lucide-react'
 
-export default function GeoBlockModal({ isVisible, onClose }) {
+export default function GeoBlockModal({ isVisible, onClose, region = 'the USA' }) {
   useEffect(() => {
     if (!isVisible) return
     const handleEscape = e => { if (e.key === 'Escape') onClose() }
@@ -49,7 +49,7 @@ export default function GeoBlockModal({ isVisible, onClose }) {
         </div>
 
         <h3 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 600, color: '#111827' }}>
-          Our services are currently limited to the United States.
+          Our services are currently limited to {region}.
         </h3>
         <p style={{ color: '#4b5563', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 24px' }}>
           We are working hard to expand access worldwide. Stay tuned for updates

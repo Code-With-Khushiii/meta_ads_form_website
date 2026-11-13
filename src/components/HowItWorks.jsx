@@ -8,7 +8,7 @@ const steps = [
   {
     number: 2,
     title: 'LinkedIn Optimization',
-    detail: 'We rewrite your LinkedIn to stand out in US recruiter searches, using AI-powered keyword matching.',
+    detail: 'We rewrite your LinkedIn to stand out in {market} recruiter searches, using AI-powered keyword matching.',
     image: 'https://pub-4518f8276e4445ffb4ae9629e58c26af.r2.dev/step2.png',
   },
   {
@@ -27,7 +27,7 @@ const steps = [
 
 import { trackButtonClick } from '../lib/tracking'
 
-export default function HowItWorks() {
+export default function HowItWorks({ market = 'U.S.' }) {
   function handleGetStarted(e) {
     e.preventDefault()
     trackButtonClick('Get Started', 'how_it_works')
@@ -97,7 +97,7 @@ export default function HowItWorks() {
                   {step.title}
                 </h3>
                 <p style={{ maxWidth: 420, fontSize: 13, fontWeight: 700, lineHeight: 1.42, color: '#232933', margin: 0 }}>
-                  {step.detail}
+                  {step.detail.replace('{market}', market)}
                 </p>
               </div>
 

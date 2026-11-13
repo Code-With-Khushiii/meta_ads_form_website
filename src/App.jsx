@@ -18,7 +18,7 @@ import { useGeoBypass } from './lib/useGeoBypass'
 export default function App() {
   const [showCalendly, setShowCalendly] = useState(false)
   const [calendlyLead, setCalendlyLead] = useState(null)
-  const [locale] = useState(() => getLocaleFromPath())
+  const [locale] = useState(() => getLocaleFromPath(window.location.pathname))
   const [isIndiaBlocked, setIsIndiaBlocked] = useState(false)
   const [geoBypassed, setGeoBypassed] = useState(() => isGeoBypassed())
   const [showGeoBlock, setShowGeoBlock] = useState(false)
@@ -89,21 +89,26 @@ export default function App() {
 
   useEffect(() => {
     document.title = LOCALE_CONTENT[locale].title
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute('content', LOCALE_CONTENT[locale].description)
   }, [locale])
+
+  const content = LOCALE_CONTENT[locale]
 
   return (
     <>
       <Nav onOpenCalendly={openCalendly} geoHoldProps={geoHoldProps} />
       <Hero locale={locale} onOpenCalendly={openCalendly} geoHoldProps={geoHoldProps} />
-      <Trust />
-      <HowItWorks />
+      <Trust locale={locale} heading={content.universitiesHeading} />
+      <HowItWorks market={content.market} />
       <Tiles />
       <Testimonials />
-      <Employers />
+      <Employers market={content.market} />
       <Founder />
-      <Footer />
+      <Footer content={content.footer} />
       <CalendlyModal isVisible={showCalendly} lead={calendlyLead} onClose={() => setShowCalendly(false)} />
-      <GeoBlockModal isVisible={showGeoBlock} onClose={() => setShowGeoBlock(false)} />
+      <GeoBlockModal isVisible={showGeoBlock} onClose={() => setShowGeoBlock(false)} region={content.geoBlockRegion} />
     </>
   )
 }

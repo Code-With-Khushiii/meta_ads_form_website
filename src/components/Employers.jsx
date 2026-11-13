@@ -20,7 +20,7 @@ const offerLetters = [
   { name: "Aman Guleria", company: "Barclays", linkedinUrl: "#", imagePath: "/images/aman_offer.png", profileImage: "https://pub-4518f8276e4445ffb4ae9629e58c26af.r2.dev/aman.jpg" },
 ]
 
-export default function Employers() {
+export default function Employers({ market = 'U.S.' }) {
   const carouselRef = useRef(null)
 
   const scroll = (dir) => {
@@ -34,7 +34,7 @@ export default function Employers() {
         <div className={styles.offerIntro}>
           <h2 className={styles.offerHeading}>60+ Offer letters received</h2>
           <p className={styles.offerSubHeading}>
-            Trusted by job seekers across the USA. Real applications. Real interviews. Real offer letters that turned opportunities into successful careers.
+            Trusted by job seekers across the {market}. Real applications. Real interviews. Real offer letters that turned opportunities into successful careers.
           </p>
           <div className={styles.arrowControls}>
             <button type="button" className={styles.arrowButton} onClick={() => scroll('left')} aria-label="Previous">&larr;</button>

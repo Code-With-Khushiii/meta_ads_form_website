@@ -8,21 +8,20 @@ export function validatePhone(raw) {
   if (!s) return 'Please enter your phone number.'
   if (s.length > 32) return 'Phone number must be at most 32 characters.'
   // Digits plus the usual separators only: no letters or other symbols.
-  if (!/^\+?[\d\s().-]+$/.test(s)) return 'Please type numbers only (e.g. (415) 555-0123 or +1 415 555 0123). Letters are not allowed.'
+  if (!/^\+?[\d\s().-]+$/.test(s)) return 'Please type numbers only (e.g. 07700 900123 or +91 98173 49846). Letters are not allowed.'
   const digits = s.replace(/\D/g, '').length
   if (digits < 7 || digits > 15) return 'Please enter a valid phone number (7–15 digits).'
   return ''
 }
 
-// True for a fully typed US number, used to advance faster than for other
+// True for a fully typed UK number, used to advance faster than for other
 // countries (whose length we can't know).
-export function isCompleteUsPhone(raw) {
-  let t = (raw || '').replace(/[\s().-]/g, '')
-  if (t.startsWith('+1')) t = t.slice(2)
-  else if (t.startsWith('001')) t = t.slice(3)
-  else if (t.startsWith('1') && t.length === 11) t = t.slice(1)
-  // NANP: area code and exchange both start with 2-9.
-  return /^[2-9]\d{2}[2-9]\d{6}$/.test(t)
+export function isCompleteUkPhone(raw) {
+  let t = (raw || '').replace(/\(0\)/g, '').replace(/[\s().-]/g, '')
+  if (t.startsWith('0044')) t = '+44' + t.slice(4)
+  const rest = t.startsWith('+44') ? t.slice(3) : t.startsWith('0') ? t.slice(1) : ''
+  const n = rest.replace(/^0/, '')
+  return /^7\d{9}$/.test(n) || /^[123]\d{9}$/.test(n)
 }
 
 export function validateName(raw) {

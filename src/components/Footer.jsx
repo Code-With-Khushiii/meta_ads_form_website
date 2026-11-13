@@ -7,7 +7,7 @@ const WHATSAPP_DISPLAY = '+1 435 666 7674'
 const EMAIL = 'support@flashfirejobs.com'
 const WEBSITE = 'https://www.flashfirejobs.com'
 
-export default function Footer() {
+export default function Footer({ content }) {
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     "Hi! I'm interested in Flashfire's AI-powered job search automation. Can you help me get started?"
   )}`
@@ -20,10 +20,9 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        <h2 className={styles.heading}>Start Your US Job Search with FlashFire</h2>
+        <h2 className={styles.heading}>{content.heading}</h2>
         <p className={styles.sub}>
-          Get expert guidance from our team and let us apply to hundreds of targeted US
-          roles on your behalf while you focus on winning the interview.
+          {content.sub}
         </p>
 
         <div className={styles.cards}>
