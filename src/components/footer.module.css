@@ -1,0 +1,101 @@
+.footer {
+  background: var(--black-tile);
+  color: #fff;
+  padding: 0;
+  border-top: none;
+  text-align: center;
+  font-size: 1rem;
+}
+.inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 24px 28px;
+}
+.heading {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.sub {
+  max-width: 760px;
+  margin: 12px auto 32px;
+  color: #d9d4cb;
+  font-size: 1.05rem;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.card {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font: inherit;
+  color: #fff;
+  border: none;
+}
+.card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-top: 8px;
+}
+.card a {
+  color: var(--orange);
+  text-decoration: none;
+  font-weight: 500;
+  overflow-wrap: break-word;
+}
+.card a[href^='mailto:'] { font-size: 0.9rem; }
+.card a:hover { text-decoration: underline; }
+.icon {
+  font-size: 2.4rem;
+  color: var(--orange);
+}
+.wa { color: #25d366; }
+.cardLight {
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+.cardLight:hover { background: var(--peach); }
+.cardCta {
+  color: var(--orange-dark);
+  font-weight: 600;
+}
+.note {
+  max-width: 900px;
+  margin: 24px auto 0;
+  font-size: 0.85rem;
+  color: #bdb7ac;
+  line-height: 1.6;
+}
+.bar {
+  background: var(--orange);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px max(24px, calc((100% - 1180px) / 2 + 24px));
+  font-weight: 500;
+}
+.bar a {
+  color: #fff;
+  text-decoration: none;
+}
+.bar a:hover { text-decoration: underline; }
+
+@media (max-width: 960px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .cards { grid-template-columns: 1fr; }
+  .bar { justify-content: center; text-align: center; }
+}

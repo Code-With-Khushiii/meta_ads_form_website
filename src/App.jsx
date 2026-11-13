@@ -7,6 +7,7 @@ import Tiles from './components/Tiles'
 import Testimonials from './components/Testimonials'
 import Employers from './components/Employers'
 import Founder from './components/Founder'
+import Footer from './components/Footer'
 import CalendlyModal from './components/CalendlyModal'
 import GeoBlockModal from './components/GeoBlockModal'
 import { getLocaleFromPath, LOCALE_CONTENT } from './lib/locale'
@@ -108,20 +109,26 @@ export default function App() {
 
   useEffect(() => {
     document.title = LOCALE_CONTENT[locale].title
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute('content', LOCALE_CONTENT[locale].description)
   }, [locale])
+
+  const content = LOCALE_CONTENT[locale]
 
   return (
     <>
       <Nav onOpenCalendly={openCalendly} geoHoldProps={geoHoldProps} />
       <Hero locale={locale} onOpenCalendly={openCalendly} geoHoldProps={geoHoldProps} />
-      <Trust />
-      <HowItWorks />
+      <Trust locale={locale} heading={content.universitiesHeading} />
+      <HowItWorks market={content.market} />
       <Tiles />
       <Testimonials />
-      <Employers />
+      <Employers market={content.market} />
       <Founder />
+      <Footer content={content.footer} />
       <CalendlyModal isVisible={showCalendly} lead={calendlyLead} onClose={() => setShowCalendly(false)} />
-      <GeoBlockModal isVisible={showGeoBlock} onClose={() => setShowGeoBlock(false)} />
+      <GeoBlockModal isVisible={showGeoBlock} onClose={() => setShowGeoBlock(false)} region={content.geoBlockRegion} />
     </>
   )
 }
