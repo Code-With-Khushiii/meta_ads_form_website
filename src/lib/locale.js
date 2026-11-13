@@ -8,8 +8,8 @@ export function getLocaleFromPath() {
 
 export const LOCALE_CONTENT = {
   'en-gb': {
-    title: 'FlashFire Jobs — Land Interview Calls Faster With Your AI Copilot',
-    sub: 'Your AI Copilot applies to up to 1,200 UK jobs and tracks every application, so you can focus on preparing for the interview.',
+    title: 'FlashFire Jobs — Land a Sponsored UK Job in 90 Days',
+    sub: 'Share your details and discover how our team can help you land more interviews by applying to 1,200 targeted UK jobs on your behalf.',
     phonePlaceholder: '+44 7700 900123',
     statusOrder: [
       'Student Visa (UK)',

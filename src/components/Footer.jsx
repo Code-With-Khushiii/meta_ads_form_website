@@ -2,9 +2,9 @@ import { FaPhoneAlt, FaWhatsapp, FaEnvelope, FaCalendarCheck } from 'react-icons
 import { trackButtonClick } from '../lib/tracking'
 import styles from './footer.module.css'
 
-const WHATSAPP_NUMBER = '919817349846'
-const WHATSAPP_DISPLAY = '+91 98173 49846'
-const EMAIL = 'care@flashfirejobs.com'
+const WHATSAPP_NUMBER = '14356667674'
+const WHATSAPP_DISPLAY = '+1 435 666 7674'
+const EMAIL = 'support@flashfirejobs.com'
 const WEBSITE = 'https://www.flashfirejobs.com'
 
 export default function Footer() {
@@ -22,8 +22,8 @@ export default function Footer() {
       <div className={styles.inner}>
         <h2 className={styles.heading}>Start Your UK Job Search with FlashFire</h2>
         <p className={styles.sub}>
-          Get expert guidance from our team and let your AI Copilot apply to hundreds of UK
-          roles while you focus on winning the interview.
+          Get expert guidance from our team and let us apply to hundreds of targeted UK
+          roles on your behalf while you focus on winning the interview.
         </p>
 
         <div className={styles.cards}>
@@ -53,10 +53,6 @@ export default function Footer() {
           </button>
         </div>
 
-        <p className={styles.note}>
-          ** Interview outcomes depend on your profile, visa status and market conditions.
-          FlashFire does not guarantee interviews or job offers.
-        </p>
       </div>
 
       <div className={styles.bar}>
