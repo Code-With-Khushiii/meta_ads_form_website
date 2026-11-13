@@ -37,9 +37,9 @@ function getLogoUrl(domain) {
 
 function getLineStyle(line) {
   if (line === 'UNIVERSITY OF') {
-    return { fontSize: '7px', fontWeight: 700, lineHeight: 1, letterSpacing: '0.03em' }
+    return { fontSize: '11px', fontWeight: 700, lineHeight: 1, letterSpacing: '0.03em' }
   }
-  return { fontSize: '14px', fontWeight: 700, lineHeight: 0.9, letterSpacing: '-0.02em' }
+  return { fontSize: '22px', fontWeight: 700, lineHeight: 0.9, letterSpacing: '-0.02em' }
 }
 
 export default function Trust() {
@@ -53,10 +53,11 @@ export default function Trust() {
       </p>
 
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(5, 1fr)',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
         alignItems: 'center',
-        gap: '24px 40px',
+        gap: '32px 72px',
         margin: '0 auto',
       }}>
         {universities.map(u => (
@@ -64,16 +65,16 @@ export default function Trust() {
             key={u.name}
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              gap: '8px', color: u.color, opacity: 0.9, whiteSpace: 'nowrap',
+              gap: '10px', color: u.color, opacity: 0.9, whiteSpace: 'nowrap',
             }}
           >
             <img
               src={getLogoUrl(u.domain)}
               alt=""
               onError={e => { e.currentTarget.style.display = 'none' }}
-              width={28}
-              height={28}
-              style={{ width: 28, height: 28, objectFit: 'contain', opacity: 0.9 }}
+              width={44}
+              height={44}
+              style={{ width: 44, height: 44, objectFit: 'contain', opacity: 0.9 }}
             />
             <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', fontFamily: 'Georgia, serif' }}>
               {u.wordmark.map(line => (

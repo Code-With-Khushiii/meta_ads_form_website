@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { API_BASE_URL } from '../lib/config'
 import { getCachedCountryCode } from '../lib/countryDetection'
 import { LOCALE_CONTENT } from '../lib/locale'
+import { validatePhone, validateName, validateEmail, isCompleteUkPhone } from '../lib/validation'
 import { getVisitorId, getTrackingData, trackButtonClick } from '../lib/tracking'
 
 const TOTAL = 3
+const BACKEND_LOCALE = 'us'
 
 const STATUS_OPTIONS = [
   { value: 'Student Visa (UK)', ic: '🎓', label: 'Student Visa', sub: 'UK' },
@@ -30,35 +32,78 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
 
   const progress = Math.round((step / TOTAL) * 100) + '%'
 
-  function next() {
-    if (step === 1) {
-      if (!status) { setStatusErr(true); return }
-      setStatusErr(false)
-      setStep(2)
-    } else if (step === 2) {
-      let err = ''
-      if (phone.length > 32) err = 'Phone number must be at most 32 characters.'
-      else if (phone.replace(/[^0-9]/g, '').length < 7) err = 'Please enter a valid phone number.'
-      setPhoneErr(err)
-      if (err) return
-      setStep(3)
-    }
+  // Auto-advance delays: a complete UK number is unambiguous, international
+  // numbers vary in length so we wait a little longer for the user to finish.
+  const PHONE_ADVANCE_UK_MS = 600
+  const PHONE_ADVANCE_INTL_MS = 1500
+  const SUBMIT_IDLE_MS = 1200
+
+  function pickStatus(value) {
+    setStatus(value)
+    setStatusErr(false)
+    setTimeout(() => setStep(s => (s === 1 ? 2 : s)), 250)
   }
 
-  function back() { setStep(s => Math.max(s - 1, 1)) }
+  // Letters and other symbols are rejected as they are typed or pasted, with a
+  // warning telling the user what to enter instead.
+  function handlePhoneChange(e) {
+    const raw = e.target.value
+    const cleaned = raw.replace(/[^\d\s+().-]/g, '')
+    setPhone(cleaned)
+    setPhoneErr(
+      cleaned !== raw
+        ? 'Please type numbers only (e.g. 07700 900123 or +91 98173 49846). Letters are not allowed.'
+        : ''
+    )
+  }
 
-  async function submit(e) {
+  function advanceFromPhone() {
+    const err = validatePhone(phone)
+    setPhoneErr(err)
+    if (!err) setStep(3)
+  }
+
+  function back() {
+    setSubmitErr('')
+    setStep(s => Math.max(s - 1, 1))
+  }
+
+  // Step 2: move on by itself once the number is valid and typing has paused.
+  useEffect(() => {
+    if (step !== 2 || phoneErr || validatePhone(phone)) return
+    const t = setTimeout(
+      () => setStep(3),
+      isCompleteUkPhone(phone) ? PHONE_ADVANCE_UK_MS : PHONE_ADVANCE_INTL_MS
+    )
+    return () => clearTimeout(t)
+  }, [step, phone, phoneErr])
+
+  // Step 3: submit by itself once name and email are valid and typing has paused.
+  const submitRef = useRef(null)
+  const lastSubmitKeyRef = useRef('')
+  useEffect(() => { submitRef.current = doSubmit })
+  useEffect(() => {
+    if (step !== 3 || submitting || done || submitErr) return
+    if (validateName(name) || validateEmail(email)) return
+    if (lastSubmitKeyRef.current === `${name}|${email}`) return
+    const t = setTimeout(() => submitRef.current?.(), SUBMIT_IDLE_MS)
+    return () => clearTimeout(t)
+  }, [step, name, email, submitting, done, submitErr])
+
+  // Enter key (the form has no buttons to click).
+  function handleFormSubmit(e) {
     e.preventDefault()
+    if (step === 2) advanceFromPhone()
+    else if (step === 3) doSubmit()
+  }
+
+  async function doSubmit() {
     if (submitting || done) return
-    // The wizard's primary CTA. Counts the click itself; the resulting booking is a
-    // separate metric downstream.
+    lastSubmitKeyRef.current = `${name}|${email}`
+    // Counts the submit itself; the resulting booking is a separate metric downstream.
     trackButtonClick('Submit (Lead Form)', 'lead_wizard')
-    let nErr = ''
-    if (name.trim().length < 2) nErr = 'Please enter your full name.'
-    else if (name.length > 200) nErr = 'Name must be at most 200 characters.'
-    let eErr = ''
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) eErr = 'Please enter a valid email address.'
-    else if (email.length > 320) eErr = 'Email must be at most 320 characters.'
+    const nErr = validateName(name)
+    const eErr = validateEmail(email)
     setNameErr(nErr)
     setEmailErr(eErr)
     if (nErr || eErr) return
@@ -78,7 +123,10 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
           email,
           phone,
           status,
-          locale,
+          // The lead API only accepts 'us' or 'en-ca' for locale, so UK leads are
+          // sent as 'us' and tagged with market 'uk' to stay distinguishable.
+          locale: BACKEND_LOCALE,
+          market: locale === 'en-gb' ? 'uk' : undefined,
           clientGeo: {
             countryCode: getCachedCountryCode(),
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -140,7 +188,7 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
   })
 
   return (
-    <form className="card wiz-card" onSubmit={submit} noValidate>
+    <form className="card wiz-card" onSubmit={handleFormSubmit} noValidate>
       <input
         type="text"
         name="_honey"
@@ -182,7 +230,8 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
                   name="status"
                   value={opt.value}
                   checked={status === opt.value}
-                  onChange={() => { setStatus(opt.value); setStatusErr(false) }}
+                  onChange={() => setStatus(opt.value)}
+                  onClick={() => pickStatus(opt.value)}
                 />
                 <span className="ic">{opt.ic}</span>
                 <span>{opt.label}<br /><small>{opt.sub}</small></span>
@@ -194,7 +243,6 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
               Please select one option to continue.
             </div>
           )}
-          <button type="button" className="submit-btn" onClick={next}>Continue →</button>
         </div>
       )}
 
@@ -213,13 +261,17 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
               placeholder={phonePlaceholder}
               maxLength={32}
               value={phone}
-              onChange={e => { setPhone(e.target.value); setPhoneErr('') }}
+              autoFocus
+              onChange={handlePhoneChange}
+              onBlur={() => { if (phone.trim()) advanceFromPhone() }}
             />
             <div className="field-error">{phoneErr || 'Please enter a valid phone number.'}</div>
           </div>
+          <p className="fine" style={{ textAlign: 'left', margin: '0 0 12px' }}>
+            Numbers only. Include your country code if outside the UK. We&rsquo;ll move on automatically.
+          </p>
           <div className="wiz-nav">
             <button type="button" className="btn-back" onClick={back}>← Back</button>
-            <button type="button" className="submit-btn" onClick={next}>Continue →</button>
           </div>
         </div>
       )}
@@ -238,7 +290,9 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
               placeholder="e.g. Ananya Rao"
               maxLength={200}
               value={name}
-              onChange={e => { setName(e.target.value); setNameErr('') }}
+              autoFocus
+              onChange={e => { setName(e.target.value); setNameErr(''); setSubmitErr('') }}
+              onBlur={() => { if (name.trim()) setNameErr(validateName(name)) }}
             />
             <div className="field-error">{nameErr || 'Please enter your full name.'}</div>
           </div>
@@ -252,17 +306,19 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
               placeholder="you@email.com"
               maxLength={320}
               value={email}
-              onChange={e => { setEmail(e.target.value); setEmailErr('') }}
+              onChange={e => { setEmail(e.target.value); setEmailErr(''); setSubmitErr('') }}
+              onBlur={() => { if (email.trim()) setEmailErr(validateEmail(email)) }}
             />
             <div className="field-error">{emailErr || 'Please enter a valid email address.'}</div>
           </div>
           <div className="wiz-nav">
             <button type="button" className="btn-back" onClick={back}>← Back</button>
-            <button type="submit" className="submit-btn" disabled={submitting}>
-              {submitting ? 'Submitting…' : 'Submit →'}
-            </button>
+            {submitting && <span className="fine" style={{ margin: 0 }}>Submitting…</span>}
+            {submitErr && !submitting && (
+              <button type="button" className="submit-btn" onClick={doSubmit}>Try again</button>
+            )}
           </div>
-          <p className="fine">By submitting, you agree to be contacted by FlashFire about your job search.</p>
+          <p className="fine">Your details are submitted automatically once complete. By submitting, you agree to be contacted by FlashFire about your job search.</p>
         </div>
       )}
 
