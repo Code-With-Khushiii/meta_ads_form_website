@@ -1,25 +1,20 @@
-export function getLocaleFromPath(pathname) {
-  return pathname === '/en-ca' || pathname.startsWith('/en-ca/') ? 'en-ca' : 'us'
+// The site targets the UK only; a single locale is kept so the `locale`
+// prop / lead payload field stays stable.
+export const DEFAULT_LOCALE = 'en-gb'
+
+export function getLocaleFromPath() {
+  return DEFAULT_LOCALE
 }
 
 export const LOCALE_CONTENT = {
-  us: {
+  'en-gb': {
     title: 'FlashFire Jobs — Land Interview Calls Faster With Your AI Copilot',
-    sub: 'We apply to 1200 USA job applications & track everything while you focus on winning the interview.',
+    sub: 'Your AI Copilot applies to up to 1,200 UK jobs and tracks every application, so you can focus on preparing for the interview.',
+    phonePlaceholder: '+44 7700 900123',
     statusOrder: [
-      'F1/OPT (Student, USA)',
-      'H1B / Work Visa (USA)',
-      'PGWP (Canada)',
-      'Just exploring',
-    ],
-  },
-  'en-ca': {
-    title: 'FlashFire Jobs — Land Interview Calls Faster With Your AI Copilot (Canada)',
-    sub: 'We apply to 1200 US & Canada job applications and track everything while you focus on winning the interview.',
-    statusOrder: [
-      'PGWP (Canada)',
-      'F1/OPT (Student, USA)',
-      'H1B / Work Visa (USA)',
+      'Student Visa (UK)',
+      'Graduate Visa (UK)',
+      'Skilled Worker Visa (UK)',
       'Just exploring',
     ],
   },

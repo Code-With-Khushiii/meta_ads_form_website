@@ -8,7 +8,7 @@ const steps = [
   {
     number: 2,
     title: 'LinkedIn Optimization',
-    detail: 'We rewrite your LinkedIn to stand out in U.S. recruiter searches, using AI-powered keyword matching.',
+    detail: 'We rewrite your LinkedIn to stand out in UK recruiter searches, using AI-powered keyword matching.',
     image: 'https://pub-4518f8276e4445ffb4ae9629e58c26af.r2.dev/step2.png',
   },
   {

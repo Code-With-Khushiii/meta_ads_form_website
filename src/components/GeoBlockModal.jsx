@@ -49,7 +49,7 @@ export default function GeoBlockModal({ isVisible, onClose }) {
         </div>
 
         <h3 style={{ margin: '0 0 12px', fontSize: '1.1rem', fontWeight: 600, color: '#111827' }}>
-          Our services are currently limited to the USA.
+          Our services are currently limited to the UK.
         </h3>
         <p style={{ color: '#4b5563', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 24px' }}>
           We are working hard to expand access worldwide. Stay tuned for updates

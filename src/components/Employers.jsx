@@ -34,7 +34,7 @@ export default function Employers() {
         <div className={styles.offerIntro}>
           <h2 className={styles.offerHeading}>60+ Offer letters received</h2>
           <p className={styles.offerSubHeading}>
-            Trusted by job seekers across the U.S. Real applications. Real interviews. Real offer letters that turned opportunities into successful careers.
+            Trusted by job seekers across the UK. Real applications. Real interviews. Real offer letters that turned opportunities into successful careers.
           </p>
           <div className={styles.arrowControls}>
             <button type="button" className={styles.arrowButton} onClick={() => scroll('left')} aria-label="Previous">&larr;</button>

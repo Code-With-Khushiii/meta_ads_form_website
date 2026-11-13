@@ -7,9 +7,9 @@ import { getVisitorId, getTrackingData, trackButtonClick } from '../lib/tracking
 const TOTAL = 3
 
 const STATUS_OPTIONS = [
-  { value: 'F1/OPT (Student, USA)', ic: '🎓', label: 'F1 / OPT', sub: 'Student, USA' },
-  { value: 'H1B / Work Visa (USA)', ic: '💼', label: 'H1B / Work Visa', sub: 'USA' },
-  { value: 'PGWP (Canada)', ic: '🍁', label: 'PGWP', sub: 'Canada' },
+  { value: 'Student Visa (UK)', ic: '🎓', label: 'Student Visa', sub: 'UK' },
+  { value: 'Graduate Visa (UK)', ic: '📜', label: 'Graduate Visa', sub: 'UK' },
+  { value: 'Skilled Worker Visa (UK)', ic: '💼', label: 'Skilled Worker Visa', sub: 'UK' },
   { value: 'Just exploring', ic: '🔍', label: 'Just', sub: 'Exploring' },
 ]
 
@@ -132,7 +132,7 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
     }
   }
 
-  const statusOrder = LOCALE_CONTENT[locale].statusOrder
+  const { statusOrder, phonePlaceholder } = LOCALE_CONTENT[locale]
   const statusOptions = [...STATUS_OPTIONS].sort((a, b) => {
     const ia = statusOrder.indexOf(a.value)
     const ib = statusOrder.indexOf(b.value)
@@ -210,7 +210,7 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
               name="phone"
               autoComplete="tel"
               inputMode="tel"
-              placeholder="+1 555 555 5555"
+              placeholder={phonePlaceholder}
               maxLength={32}
               value={phone}
               onChange={e => { setPhone(e.target.value); setPhoneErr('') }}

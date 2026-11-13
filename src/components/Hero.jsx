@@ -7,10 +7,10 @@ export default function Hero({ locale, onOpenCalendly, geoHoldProps = {} }) {
     <section className="hero" id="top">
       <div className="hero-grid">
         <div className="hero-left">
-          <div className="badge">Land Interview In 1 Week</div>
+          <div className="badge">Interviews in as little as 1 week</div>
           <h1>
-            <span style={{display:'block'}}>Land Interview</span>
-            <span style={{display:'block', whiteSpace:'nowrap'}}>Calls Faster with</span>
+            <span style={{display:'block'}}>Land UK Interviews</span>
+            <span style={{display:'block', whiteSpace:'nowrap'}}>Faster with</span>
             <span className="hl">FlashFire AI Copilot</span>
           </h1>
           <p className="sub">
