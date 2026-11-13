@@ -20,9 +20,9 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        <h2 className={styles.heading}>Start Your UK Job Search with FlashFire</h2>
+        <h2 className={styles.heading}>Start Your US Job Search with FlashFire</h2>
         <p className={styles.sub}>
-          Get expert guidance from our team and let us apply to hundreds of targeted UK
+          Get expert guidance from our team and let us apply to hundreds of targeted US
           roles on your behalf while you focus on winning the interview.
         </p>
 

@@ -1,33 +1,33 @@
 const universities = [
   {
-    name: 'University of Oxford',
-    domain: 'ox.ac.uk',
-    wordmark: ['UNIVERSITY OF', 'OXFORD'],
-    color: '#002147',
+    name: 'Massachusetts Institute of Technology',
+    domain: 'mit.edu',
+    wordmark: ['MIT'],
+    color: '#a31f34',
   },
   {
-    name: 'University of Cambridge',
-    domain: 'cam.ac.uk',
-    wordmark: ['UNIVERSITY OF', 'CAMBRIDGE'],
-    color: '#5f8f78',
+    name: 'Stanford University',
+    domain: 'stanford.edu',
+    wordmark: ['Stanford', 'University'],
+    color: '#8c1515',
   },
   {
-    name: 'Imperial College London',
-    domain: 'imperial.ac.uk',
-    wordmark: ['Imperial College', 'London'],
-    color: '#003e74',
+    name: 'Harvard University',
+    domain: 'harvard.edu',
+    wordmark: ['HARVARD', 'UNIVERSITY'],
+    color: '#a51c30',
   },
   {
-    name: 'UCL',
-    domain: 'ucl.ac.uk',
-    wordmark: ['UCL'],
-    color: '#500778',
+    name: 'Carnegie Mellon University',
+    domain: 'cmu.edu',
+    wordmark: ['Carnegie Mellon', 'University'],
+    color: '#c41230',
   },
   {
-    name: 'University of Edinburgh',
-    domain: 'www.ed.ac.uk',
-    wordmark: ['UNIVERSITY OF', 'EDINBURGH'],
-    color: '#041e42',
+    name: 'UC Berkeley',
+    domain: 'berkeley.edu',
+    wordmark: ['UC Berkeley'],
+    color: '#003262',
   },
 ]
 
@@ -49,7 +49,7 @@ export default function Trust() {
         fontSize: '20px', fontWeight: 500, color: '#9d9d9d',
         marginBottom: '28px', lineHeight: 1.4,
       }}>
-        Trusted by students and graduates from top UK universities.
+        Trusted by students and graduates from top US universities.
       </p>
 
       <div style={{

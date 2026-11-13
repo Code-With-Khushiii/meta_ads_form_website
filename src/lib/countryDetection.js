@@ -16,8 +16,6 @@ const CANADA_TIMEZONES = [
   'America/Swift_Current',
 ]
 
-const UK_TIMEZONES = ['Europe/London', 'Europe/Belfast']
-
 function clearCachedCountryCode() {
   try {
     localStorage.removeItem(STORAGE_KEY)
@@ -83,9 +81,6 @@ export function detectCountryFallback() {
 
     if (CANADA_TIMEZONES.some(tz => timezone.includes(tz))) return 'CA'
     if (language.startsWith('fr-CA') || language.startsWith('en-CA')) return 'CA'
-
-    if (UK_TIMEZONES.some(tz => timezone.includes(tz))) return 'GB'
-    if (language.startsWith('en-GB')) return 'GB'
 
     return 'US'
   } catch {

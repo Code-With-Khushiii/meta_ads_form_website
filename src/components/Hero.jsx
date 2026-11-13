@@ -9,7 +9,7 @@ export default function Hero({ locale, onOpenCalendly, geoHoldProps = {} }) {
         <div className="hero-left">
           <div className="badge">Interviews in as little as 1 week</div>
           <h1>
-            <span style={{display:'block'}}>Land a Sponsored UK Job</span>
+            <span style={{display:'block'}}>Land a Sponsored US Job</span>
             <span style={{display:'block', whiteSpace:'nowrap'}}>in 90 Days with</span>
             <span className="hl">FlashFire!</span>
           </h1>

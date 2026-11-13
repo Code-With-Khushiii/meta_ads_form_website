@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from 'react'
 import { API_BASE_URL } from '../lib/config'
 import { getCachedCountryCode } from '../lib/countryDetection'
 import { LOCALE_CONTENT } from '../lib/locale'
-import { validatePhone, validateName, validateEmail, isCompleteUkPhone } from '../lib/validation'
+import { validatePhone, validateName, validateEmail, isCompleteUsPhone } from '../lib/validation'
 import { getVisitorId, getTrackingData, trackButtonClick } from '../lib/tracking'
 
 const TOTAL = 3
 const BACKEND_LOCALE = 'us'
 
 const STATUS_OPTIONS = [
-  { value: 'Student Visa (UK)', ic: '🎓', label: 'Student Visa', sub: 'UK' },
-  { value: 'Graduate Visa (UK)', ic: '📜', label: 'Graduate Visa', sub: 'UK' },
-  { value: 'Skilled Worker Visa (UK)', ic: '💼', label: 'Skilled Worker Visa', sub: 'UK' },
+  { value: 'F-1 Student Visa (US)', ic: '🎓', label: 'F-1 Student', sub: 'Visa' },
+  { value: 'OPT / STEM OPT (US)', ic: '📜', label: 'OPT /', sub: 'STEM OPT' },
+  { value: 'H-1B Visa (US)', ic: '💼', label: 'H-1B', sub: 'Visa' },
   { value: 'Just exploring', ic: '🔍', label: 'Just', sub: 'Exploring' },
 ]
 
@@ -32,9 +32,9 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
 
   const progress = Math.round((step / TOTAL) * 100) + '%'
 
-  // Auto-advance delays: a complete UK number is unambiguous, international
+  // Auto-advance delays: a complete US number is unambiguous, international
   // numbers vary in length so we wait a little longer for the user to finish.
-  const PHONE_ADVANCE_UK_MS = 600
+  const PHONE_ADVANCE_US_MS = 600
   const PHONE_ADVANCE_INTL_MS = 1500
   const SUBMIT_IDLE_MS = 1200
 
@@ -52,7 +52,7 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
     setPhone(cleaned)
     setPhoneErr(
       cleaned !== raw
-        ? 'Please type numbers only (e.g. 07700 900123 or +91 98173 49846). Letters are not allowed.'
+        ? 'Please type numbers only (e.g. (415) 555-0123 or +1 415 555 0123). Letters are not allowed.'
         : ''
     )
   }
@@ -73,7 +73,7 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
     if (step !== 2 || phoneErr || validatePhone(phone)) return
     const t = setTimeout(
       () => setStep(3),
-      isCompleteUkPhone(phone) ? PHONE_ADVANCE_UK_MS : PHONE_ADVANCE_INTL_MS
+      isCompleteUsPhone(phone) ? PHONE_ADVANCE_US_MS : PHONE_ADVANCE_INTL_MS
     )
     return () => clearTimeout(t)
   }, [step, phone, phoneErr])
@@ -123,10 +123,9 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
           email,
           phone,
           status,
-          // The lead API only accepts 'us' or 'en-ca' for locale, so UK leads are
-          // sent as 'us' and tagged with market 'uk' to stay distinguishable.
+          // The lead API only accepts 'us' or 'en-ca' for locale, so US leads are
+          // sent as 'us'.
           locale: BACKEND_LOCALE,
-          market: locale === 'en-gb' ? 'uk' : undefined,
           clientGeo: {
             countryCode: getCachedCountryCode(),
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -268,7 +267,7 @@ export default function LeadWizard({ locale, onOpenCalendly }) {
             <div className="field-error">{phoneErr || 'Please enter a valid phone number.'}</div>
           </div>
           <p className="fine" style={{ textAlign: 'left', margin: '0 0 12px' }}>
-            Numbers only. Include your country code if outside the UK. We&rsquo;ll move on automatically.
+            Numbers only. Include your country code if outside the US. We&rsquo;ll move on automatically.
           </p>
           <div className="wiz-nav">
             <button type="button" className="btn-back" onClick={back}>← Back</button>

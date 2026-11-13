@@ -10,10 +10,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/register" element={<App />} />
+        <Route path="/en-us" element={<App />} />
+        <Route path="/en-us/*" element={<App />} />
         <Route path="/en-ca" element={<App />} />
         <Route path="/en-ca/*" element={<App />} />
-        <Route path="/en-gb" element={<App />} />
-        <Route path="/en-gb/*" element={<App />} />
+        <Route path="/en-us" element={<App />} />
+        <Route path="/en-us/*" element={<App />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
